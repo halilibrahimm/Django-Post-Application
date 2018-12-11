@@ -1,0 +1,12 @@
+﻿
+
+
+{%load crispy_forms_tags%}<!--crispy form çağrıldı-->
+
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<form method="post">
+    {%csrf_token%} <!--prosedür önlemi-->
+    {{form|crispy}}<!--formu crsipy filterı ile ekranda gösterir-->
+    <input type="submit" value="Yorum Ekle" class="btn btn-primary" ><!--bootstrap classı çağrıldı--> 
+</form>

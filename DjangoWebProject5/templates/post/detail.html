@@ -1,0 +1,45 @@
+﻿{%extends 'base.html'%}
+
+{%block body%}
+<div class="container">
+<div class=" row" >
+           <div class="col-md-6 col-md-offset-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        {%if post.image%}
+                            <img src="{{ post.image.url }}" class="img-responsive" >
+                        {%endif%}
+                        <h3 class="card-title">{{post.title}} <small>{{post.publishingDate|timesince}} önce</small></h3>
+                        <p class="card-text">{{post.content|safe|linebreaks}}</p>
+                        <a href="{{post.get_absolute_url}}" class="btn btn-primary">İNCELE</a>
+                       {% if request.user.is_authenticated %}<!--admin olmayanlara güncelle sil kapatıldı-->
+                        <a href="{{post.get_update_url}}" class="btn btn-default">GÜNCELLE</a>
+                        <a href="{{post.get_delete_url}}" class="btn btn-danger">SİL</a>
+                        {%endif%}
+                    </div>
+
+
+                    <br /><br /><hr />
+                    <!--comment form çağrılıyor-->
+                    <h3>Yorum Ekle</h3>
+                    {%include 'post/comment.html'%}
+                    <hr />
+                    
+
+                    <!--Tüm yorumları getir detay sayfasına yani postun detayının olduğu sayfanın altına-->
+
+                    {%for comment in post.comments.all%}
+
+                        <h4>{{comment.name}} | <small>{{comment.created_date|timesince}} önce</small></h4><!--yorum yapanın adı ve aç dk önce yazdığı-->
+                        <p>{{comment.content|linebreaks}}</p><!--yorumun kendisi, | dan sonraki enter komutu işlesin diye-->
+
+                        <hr /><!--çizgi çeker-->
+                    {%endfor%}
+
+
+                </div>
+           </div>
+       </div>
+    </div>  
+</div>
+{%endblock%}

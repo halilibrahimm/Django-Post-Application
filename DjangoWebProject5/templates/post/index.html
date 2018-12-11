@@ -1,0 +1,74 @@
+﻿
+
+
+{%extends 'base.html'%}
+{%block body%}
+<div class="container">
+    {#/post/{{post.id}}#} 
+    {#{% url 'detail' id=post.id%}#}
+    <br />
+<br />
+<br />
+<br />
+<br />
+
+    {%      for post in posts %}
+       <div class=" row" >
+           <div class="col-md-6 col-md-offset-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        {%if post.image%}
+                            <img src="{{ post.image.url }}" class="img-responsive" >
+                        {%endif%}
+                        <h3 class="card-title">{{post.title}} <small>{{post.publishingDate|timesince}} önce</small></h3>
+                        <h4>Yazar: {{post.user.get_full_name}}</h4>
+                        <p class="card-text">{{post.content|safe|linebreaksbr|truncatechars:150}}</p>
+                        <a href="{{post.get_absolute_url}}" class="btn btn-primary">İNCELE</a>
+                        {% if request.user.is_authenticated %}<!--admin olmayanlara güncelle sil kapatıldı-->
+                        <a href="{{post.get_update_url}}" class="btn btn-default">GÜNCELLE</a>
+                        <a href="{{post.get_delete_url}}" class="btn btn-danger">SİL</a>
+                        {%endif%}
+                    </div>
+                </div>
+           </div>
+       </div>
+      {% endfor  %}
+    </div>  
+
+  
+
+
+<!--postları dağıtmak için ve ileri geri butonları koymak için-->
+ <div class=" row" >
+           <div class="col-md-6 col-md-offset-3">
+{% for contact in contacts %}
+    {# Each "contact" is a Contact model object. #}
+    {{ contact.full_name|upper }}<br />
+    ...
+{% endfor %}
+
+{% for contact in contacts %}
+    {# Each "contact" is a Contact model object. #}
+    {{ contact.full_name|upper }}<br />
+    ...
+{% endfor %}
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                    <a href="?sayfa={{ posts.previous_page_number }}{%if request.GET.q%}&q={{request.GET.q}}{%endif%}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                </span>
+
+                {% if posts.has_next %}
+                    <a href="?sayfa={{ posts.next_page_number }}{%if request.GET.q%}&q={{request.GET.q}}{%endif%}">next</a>
+                {% endif %}
+            </span>
+            </div>
+        </div>
+        </div>
+
+{%endblock%}
