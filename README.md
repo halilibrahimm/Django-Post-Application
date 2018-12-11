@@ -1,4 +1,4 @@
 # Django-Post-Application
 
 
-Web application with Django
+Web application with Django and Bootstrap
